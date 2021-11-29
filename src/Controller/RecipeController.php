@@ -23,7 +23,7 @@ class RecipeController extends AbstractController
 
 
      /**
-     * @Route("/recipe/new", methods={"GET","POST"})
+     * @Route("/recipe/new", methods={"GET","POST"}, name="create_recipe")
      */
     public function createRecipe(Request $request): Response
     {

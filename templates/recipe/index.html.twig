@@ -1,3 +1,9 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Recipe APP{% endblock %}
+
+{% block content %}
+
 <h1>Welcome Recipe App</h1>
 
 {% for message in app.flashes('notice') %}
@@ -14,3 +20,5 @@
         </li>
     {% endfor %}
 </ul>
+
+{% endblock %}

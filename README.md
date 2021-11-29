@@ -7,9 +7,9 @@
 - [x] Hello World
 - [x] Route
 - [x] Controller
-- [ ] View (templating...)
+- [x] View (templating...)
 - [x] Connection a la base a une base de donnees
-- [ ] Model
+- [x] Model
 - [x] CRUD
 - [ ] Validation
 - [ ] Relationship
