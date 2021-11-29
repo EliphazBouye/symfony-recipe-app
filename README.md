@@ -4,12 +4,15 @@
     - Symfony
         - Symfony Flex
         - Symfony Packs
-- [ ] Hello World
-- [ ] Components
-- [ ] Managing Data
-- [ ] Component Lifecycle
-- [ ] Template
-- [ ] Event Binding
-- [ ] Form
-- [ ] HTTP client
+- [x] Hello World
+- [ ] Route
+- [ ] Controller
+- [ ] View (templating...)
+- [ ] Connection a la base a une base de donnees
+- [ ] Model
+- [ ] CRUD
+- [ ] Validation
+- [ ] Relationship
+- [ ] Cache
 - [ ] Unit Test
+- [ ] build a app
