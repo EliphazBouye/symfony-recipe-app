@@ -19,4 +19,12 @@ list_recipe:
    path: /recipe
    controller: App\Controller\RecipeController::listRecipe
 
+update_recipe:
+   path: /recipe/update/{id}
+   controller: App\Controller\RecipeController::update
+
+delete_recipe:
+   path: /recipe/del/{id}
+   controller: App\Controller\RecipeController::delete
+
 

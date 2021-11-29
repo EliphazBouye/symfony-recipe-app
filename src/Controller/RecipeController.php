@@ -47,9 +47,42 @@ class RecipeController extends AbstractController
             );
         }
 
-        return new Response('Check out this great recipe: '.$recipe->getContent());
+        return new Response('Check out this great recipe: '.$recipe->getName());
+    }
 
+
+    public function update(int $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $recipe = $entityManager->getRepository(Recipe::class)->find($id);
+
+        if(!$recipe){
+            throw $this->createNotFoundException(
+                'No product found for id '.$id
+            );
+        }
+
+        $recipe->setName('Sauce arrachide');
+        $entityManager->flush();
+
+        return new Response('Recipe updated id : '.$recipe->getId());
 
     }
 
+    public function delete(int $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $recipe = $entityManager->getRepository(Recipe::class)->find($id);
+
+        if(!$recipe){
+            throw $this->createNotFoundException(
+                'No product found for id '.$id
+            );
+        }
+
+        $entityManager->remove($recipe);
+        $entityManager->flush();
+
+        return new Response('Recipe deleted');
+    }
 }
