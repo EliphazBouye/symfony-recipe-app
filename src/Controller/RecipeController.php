@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Recipe;
+use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -19,19 +21,35 @@ class RecipeController extends AbstractController
         ]);
     }
 
-    public function createRecipe(): Response
+
+     /**
+     * @Route("/recipe/new", methods={"GET","POST"})
+     */
+    public function createRecipe(Request $request): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
 
         $recipe = new Recipe();
-        $recipe->setName('Sauce graine');
-        $recipe->setContent('Graine de palm, Viande , Poison fumer etc...');
+        // $recipe->setName('Sauce graine');
+        // $recipe->setContent('Graine de palm, Viande , Poison fumer etc...');
         
 
-        $entityManager->persist($recipe);
-        $entityManager->flush();
+        $form = $this->createForm(RecipeType::class);
 
-        return new Response('Saved recipe with id '.$recipe->getId());
+        $form->handleRequest($request);
+        
+        if($form->isSubmitted() && $form->isValid()){
+            $recipe = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($recipe);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('list_recipe');
+        }
+
+        return $this->renderForm('recipe/new.html.twig', [
+            'form' => $form
+        ]);
     }
 
     public function show(int $id): Response
@@ -47,14 +65,19 @@ class RecipeController extends AbstractController
             );
         }
 
-        return new Response('Check out this great recipe: '.$recipe->getName());
+        return $this->render('recipe/show.html.twig', [
+            'recipe' => $recipe
+        ]);
     }
 
 
-    public function update(int $id): Response
+    public function update(Request $request, int $id): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $recipe = $entityManager->getRepository(Recipe::class)->find($id);
+
+
+        $form = $this->createForm(RecipeType::class, $recipe);
 
         if(!$recipe){
             throw $this->createNotFoundException(
@@ -62,10 +85,19 @@ class RecipeController extends AbstractController
             );
         }
 
-        $recipe->setName('Sauce arrachide');
-        $entityManager->flush();
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
 
-        return new Response('Recipe updated id : '.$recipe->getId());
+            $recipe = $form->getData();
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('show_recipe', ['id' => $id]);
+        }
+
+
+        return $this->renderForm('recipe/edit.html.twig', [
+            'form' => $form
+        ]);
 
     }
 
@@ -83,6 +115,11 @@ class RecipeController extends AbstractController
         $entityManager->remove($recipe);
         $entityManager->flush();
 
-        return new Response('Recipe deleted');
+        $this->addFlash(
+            'notice',
+            "Recipe Deleted successfully"
+        );
+
+        return $this->redirectToRoute('list_recipe');
     }
 }

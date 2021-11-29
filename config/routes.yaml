@@ -3,13 +3,9 @@
 #    controller: App\Controller\DefaultController::index
 
 
-hello:
-   path: /hi
-   controller: App\Controller\HelloController::hello
-
-create_recipe:
-   path: /recipe/create
-   controller: App\Controller\RecipeController::createRecipe
+# create_recipe:
+#    path: /recipe/create
+#    controller: App\Controller\RecipeController::createRecipe
 
 show_recipe:
    path: /recipe/{id}

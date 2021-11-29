@@ -1,0 +1,5 @@
+<h3>{{ recipe.name }}</h3>
+<p>{{ recipe.content }}</p>
+
+<a href="{{ path('update_recipe', {id: recipe.id}) }}">Edit</a>
+<a href="{{ path('delete_recipe', {id: recipe.id}) }}">Delete</a>

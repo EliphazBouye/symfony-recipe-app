@@ -1,5 +1,11 @@
 <h1>Welcome Recipe App</h1>
 
+{% for message in app.flashes('notice') %}
+    <div class="flash-notice">
+        {{ message }}
+    </div>
+{% endfor %}
+
 <h2>Recipe list :</h2>
 <ul>
     {% for recipe in recipes %}
