@@ -5,12 +5,12 @@
         - Symfony Flex
         - Symfony Packs
 - [x] Hello World
-- [ ] Route
-- [ ] Controller
+- [x] Route
+- [x] Controller
 - [ ] View (templating...)
-- [ ] Connection a la base a une base de donnees
+- [x] Connection a la base a une base de donnees
 - [ ] Model
-- [ ] CRUD
+- [x] CRUD
 - [ ] Validation
 - [ ] Relationship
 - [ ] Cache
