@@ -11,7 +11,7 @@
 - [x] Connection a la base a une base de donnees
 - [x] Model
 - [x] CRUD
-- [ ] Validation
+- [x] Validation
 - [ ] Relationship
 - [ ] Cache
 - [ ] Unit Test

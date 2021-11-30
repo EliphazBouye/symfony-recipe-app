@@ -2,19 +2,21 @@
 
 namespace App\Controller;
 
+use App\Entity\Tag;
 use App\Entity\Recipe;
 use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RecipeController extends AbstractController
 {
     public function listRecipe(RecipeRepository $recipeRepository): Response
     {
         $recipes = $recipeRepository->findAll();
+        
 
         return $this->render('recipe/index.html.twig', [
             'recipes' => $recipes
@@ -32,14 +34,19 @@ class RecipeController extends AbstractController
         // $recipe->setName('Sauce graine');
         // $recipe->setContent('Graine de palm, Viande , Poison fumer etc...');
         
+        $tag1 = new Tag();
+        $tag1->setName('tag1');
+        $recipe->getTags()->add($tag1);
+        $tag2 = new Tag();
+        $tag2->setName('tag2');
+        $recipe->getTags()->add($tag2);
 
-        $form = $this->createForm(RecipeType::class);
+        $form = $this->createForm(RecipeType::class, $recipe);
 
         $form->handleRequest($request);
         
         if($form->isSubmitted() && $form->isValid()){
             $recipe = $form->getData();
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($recipe);
             $entityManager->flush();
@@ -58,6 +65,7 @@ class RecipeController extends AbstractController
             ->getRepository(Recipe::class)
             ->find($id);
 
+        $tags = $recipe->getTags();
 
         if(!$recipe) {
             throw $this->createNotFoundException(
@@ -66,7 +74,8 @@ class RecipeController extends AbstractController
         }
 
         return $this->render('recipe/show.html.twig', [
-            'recipe' => $recipe
+            'recipe' => $recipe,
+            'tags' => $tags
         ]);
     }
 
