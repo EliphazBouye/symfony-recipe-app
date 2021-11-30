@@ -24,7 +24,8 @@ class RecipeType extends AbstractType
                 'entry_type' => TagType::class,
                 'label' => false,
                 'allow_add' => true,
-                'by_reference' => false
+                'by_reference' => false,
+                'allow_delete' => true,
             ])
             ->add('save', SubmitType::class)
         ;

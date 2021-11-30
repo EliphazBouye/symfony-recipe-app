@@ -1,10 +1,24 @@
 document
-  .querySelectorAll('.add_item_link')
-  .forEach(btn => btn.addEventListener("click", function(e){
-      addFormToCollection(e)
-  }));
+.querySelectorAll('.add_item_link')
+.forEach(btn => btn.addEventListener("click",function(e){addFormToCollection(e)}));
 
-  const addFormToCollection = (e) => {
+
+const addTagFormDeleteLink = (tagFormLi) => {
+  const removeFormButton = document.createElement('button')
+  removeFormButton.classList
+  removeFormButton.innerText = 'Delete this tag'
+
+  tagFormLi.append(removeFormButton);
+
+  removeFormButton.addEventListener('click', (e) => {
+      e.preventDefault()
+      // remove the li for the tag form
+      tagFormLi.remove();
+  });
+}
+
+
+const addFormToCollection = (e) => {
     const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
   
     const item = document.createElement('li');
@@ -20,4 +34,11 @@ document
     collectionHolder.appendChild(item);
   
     collectionHolder.dataset.index++;
+
+     // add a delete link to the new form
+    addTagFormDeleteLink(item);
   };
+
+
+
+
