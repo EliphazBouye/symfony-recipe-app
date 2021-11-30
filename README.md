@@ -12,7 +12,5 @@
 - [x] Model
 - [x] CRUD
 - [x] Validation
-- [ ] Relationship
-- [ ] Cache
-- [ ] Unit Test
-- [ ] build a app
+- [x] Relationship
+- [x] build a app
