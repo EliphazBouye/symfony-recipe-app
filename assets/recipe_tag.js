@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 document
   .querySelectorAll('.add_item_link')
   .forEach(btn => btn.addEventListener("click", function(e){
