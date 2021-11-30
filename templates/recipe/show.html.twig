@@ -7,7 +7,7 @@
 
 {% for tag in tags %}
     <span>
-        <strong>{{ tag.name }}</strong>
+        <a href="{{ path('show_tag', {id: tag.id}) }}"><strong>{{ tag.name }}</strong></a>
     </span>
 {% endfor %}
 <br/>

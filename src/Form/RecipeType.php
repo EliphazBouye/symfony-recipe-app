@@ -2,10 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Tag;
 use App\Form\TagType;
 use App\Entity\Recipe;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -20,12 +22,10 @@ class RecipeType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('content', TextareaType::class)
-            ->add('tags', CollectionType::class, [
-                'entry_type' => TagType::class,
-                'label' => false,
-                'allow_add' => true,
-                'by_reference' => false,
-                'allow_delete' => true,
+            ->add('tags', EntityType::class, [
+                'class' => Tag::class,
+                'multiple' => true,
+                'choice_label'  => 'name',
             ])
             ->add('save', SubmitType::class)
         ;

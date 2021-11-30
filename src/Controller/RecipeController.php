@@ -6,6 +6,7 @@ use App\Entity\Tag;
 use App\Entity\Recipe;
 use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,12 +28,9 @@ class RecipeController extends AbstractController
      /**
      * @Route("/recipe/new", methods={"GET","POST"}, name="create_recipe")
      */
-    public function createRecipe(Request $request): Response
+    public function createRecipe(Request $request, EntityManagerInterface $entityManager): Response
     {
-
         $recipe = new Recipe();
-        // $recipe->setName('Sauce graine');
-        // $recipe->setContent('Graine de palm, Viande , Poison fumer etc...');
         
         $form = $this->createForm(RecipeType::class, $recipe);
 
@@ -40,7 +38,6 @@ class RecipeController extends AbstractController
         
         if($form->isSubmitted() && $form->isValid()){
             $recipe = $form->getData();
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($recipe);
             $entityManager->flush();
 
