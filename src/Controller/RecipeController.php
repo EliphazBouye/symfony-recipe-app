@@ -34,13 +34,6 @@ class RecipeController extends AbstractController
         // $recipe->setName('Sauce graine');
         // $recipe->setContent('Graine de palm, Viande , Poison fumer etc...');
         
-        $tag1 = new Tag();
-        $tag1->setName('tag1');
-        $recipe->getTags()->add($tag1);
-        $tag2 = new Tag();
-        $tag2->setName('tag2');
-        $recipe->getTags()->add($tag2);
-
         $form = $this->createForm(RecipeType::class, $recipe);
 
         $form->handleRequest($request);
