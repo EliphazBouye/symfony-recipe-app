@@ -27,13 +27,15 @@
                           {{ recipe.name|e  }}
                         </a>
                       </h3>
-                      <p class="mt-1 text-sm text-gray-500">Black</p>
+                            {% for tag in recipe.getTags() %}
+                                <p class="mt-1 text-sm text-gray-500">{{ tag.name }}</p>
+                            {% endfor %}
                     </div>
                     {# <p class="text-sm font-medium text-gray-900">$35</p> #}
                   </div>
                 </div>
     {% endfor %}
-          
+
 <!-- More products... -->
 </div>
 </div>
