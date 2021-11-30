@@ -16,11 +16,23 @@
     <body>
         <div>
             {% block sidebar %}
-                <ul>
-                        <li><a href="{{ path('list_recipe') }}">Home</a></li>
-                        <li><a href="{{ path('create_recipe') }}">Create Recipe</a></li>
-                        <li><a href="{{ path('new_tag') }}">Create Tag</a></li>
-                </ul>
+                <nav class="bg-white shadow-lg mb-5">
+                    <div class="max-w-6xl mx-auto px-4">
+                        <div class="flex justify-between">
+                            <div class="flex space-x-7">
+                                <div class="md:flex item-center space-x-1">
+                                    <a href="{{ path('list_recipe') }}" class="py-4 px-2">Recipe</a>
+                                </div>
+
+                                <div class="hidden md:flex item-center space-x-1">
+                                    <a href="{{ path('list_recipe') }}" class="py-4 px-2 text-green-500 border-b-4 border-green-500 font-semibold" >Home</a>
+                                    <a href="{{ path('create_recipe') }}" class="py-4 px-2 text-gray-500  border-green-500 font-semibold" >Create Recipe</a>
+                                    <a href="{{ path('new_tag') }}" class="py-4 px-2 text-gray-500  border-green-500 font-semibold" >Create Tag</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
             {% endblock %}
         </div>
         {% block content %}{% endblock %}
