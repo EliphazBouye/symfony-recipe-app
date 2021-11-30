@@ -22,6 +22,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('recipe_tag', './assets/recipe_tag.js')
+    .addEntry('edit_recipe_tag', './assets/edit_recipe_tag.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
