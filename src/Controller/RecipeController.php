@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -82,11 +83,16 @@ class RecipeController extends AbstractController
     }
 
 
-    public function update(Request $request, int $id): Response
+    public function update(Request $request, int $id, FileUploader $fileUploader): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $recipe = $entityManager->getRepository(Recipe::class)->find($id);
 
+        $imageRecipe = null;
+
+        if($recipe->getImage() != null){
+            $imageRecipe = $recipe->getImage();
+        }
 
         $form = $this->createForm(RecipeType::class, $recipe);
 
@@ -98,8 +104,20 @@ class RecipeController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-
             $recipe = $form->getData();
+            $image = $form->get('image')->getData();
+            
+            if(isset($image)){
+                $newImageName = $fileUploader->upload($image);
+
+                $img = new Image();
+                // dump($img);
+                $img->setName($newImageName);
+                $recipe->setImage($img);
+                //     $newImageName
+                // );
+            }
+
             $entityManager->flush();
             
             return $this->redirectToRoute('show_recipe', ['id' => $id]);
@@ -107,7 +125,8 @@ class RecipeController extends AbstractController
 
 
         return $this->renderForm('recipe/edit.html.twig', [
-            'form' => $form
+            'form' => $form,
+            'imageRecipe' => $imageRecipe
         ]);
 
     }
