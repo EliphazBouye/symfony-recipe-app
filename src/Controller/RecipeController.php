@@ -44,18 +44,7 @@ class RecipeController extends AbstractController
            $recipe = $form->getData();
            $image = $form->get('image')->getData();
 
-           $originalImageName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-           $safeFileName=  $slugger->slug($originalImageName);
-            $newImageName = $safeFileName .'-'.uniqid().'.'.$image->guessExtension();
-
-            try{
-                $image->move(
-                    $this->getParameter('image_dir'),
-                    $newImageName
-                );
-            } catch(FileException $e) {
-                echo 'Error Image : ' . $e;
-            }
+           $newImageName = $fileUploader->upload($image);
 
             $img = new Image();
             $img->setName($newImageName);
