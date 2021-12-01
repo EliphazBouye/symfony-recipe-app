@@ -2,15 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\Image;
 use App\Entity\Tag;
 use App\Entity\Recipe;
 use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class RecipeController extends AbstractController
 {
@@ -27,7 +32,7 @@ class RecipeController extends AbstractController
      /**
      * @Route("/recipe/new", methods={"GET","POST"}, name="create_recipe")
      */
-    public function createRecipe(Request $request, EntityManagerInterface $entityManager): Response
+    public function createRecipe(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader, SluggerInterface $slugger): Response
     {
         $recipe = new Recipe();
         
@@ -36,7 +41,26 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
         
         if($form->isSubmitted() && $form->isValid()){
-            $recipe = $form->getData();
+           $recipe = $form->getData();
+           $image = $form->get('image')->getData();
+
+           $originalImageName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+           $safeFileName=  $slugger->slug($originalImageName);
+            $newImageName = $safeFileName .'-'.uniqid().'.'.$image->guessExtension();
+
+            try{
+                $image->move(
+                    $this->getParameter('image_dir'),
+                    $newImageName
+                );
+            } catch(FileException $e) {
+                echo 'Error Image : ' . $e;
+            }
+
+            $img = new Image();
+            $img->setName($newImageName);
+            $recipe->setImage($img);
+
             $entityManager->persist($recipe);
             $entityManager->flush();
 

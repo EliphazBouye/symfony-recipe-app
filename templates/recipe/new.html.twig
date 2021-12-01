@@ -30,10 +30,15 @@
         </div>
 
         <div>
+            {{ form_label(form.image) }}
+            {{ form_widget(form.image) }}
+        </div>
+
+        <div>
             {{ form_label(form.save, {'attr': {'class' : 'text-white'}}) }}
             {{ form_widget(form.save, {'attr' : {'class' : 'text-gray-200 bg-gray-200 hover:bg-gray-400  font-bold py-2 px-3 text-gray-700 mb-3 leading-right focus-outline-none focus-shadow-outline rounded'}}) }}
         </div>
-
+       
         {{ form_end(form) }}
     </div>
 </div>
