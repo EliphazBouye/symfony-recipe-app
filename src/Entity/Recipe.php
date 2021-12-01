@@ -35,6 +35,11 @@ class Recipe
      */
     private $tags;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Image::class, mappedBy="recipe_id", cascade={"persist", "remove"})
+     */
+    private $image;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -89,6 +94,28 @@ class Recipe
     public function removeTag(Tag $tag): self
     {
         $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($image === null && $this->image !== null) {
+            $this->image->setRecipeId(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($image !== null && $image->getRecipeId() !== $this) {
+            $image->setRecipeId($this);
+        }
+
+        $this->image = $image;
 
         return $this;
     }
