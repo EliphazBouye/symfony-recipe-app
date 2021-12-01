@@ -44,13 +44,14 @@ class RecipeController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
            $recipe = $form->getData();
            $image = $form->get('image')->getData();
-
-           $newImageName = $fileUploader->upload($image);
+            if(isset($image)){
+                $newImageName = $fileUploader->upload($image);
+            
 
             $img = new Image();
             $img->setName($newImageName);
             $recipe->setImage($img);
-
+            }
             $entityManager->persist($recipe);
             $entityManager->flush();
 

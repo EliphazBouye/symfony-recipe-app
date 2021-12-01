@@ -14,7 +14,7 @@
         {% if imageRecipe is not null %}
           <img alt="ecommerce" class="lg:w-1/2 lg:h-auto h-64 object-cover object-center rounded" src="{{ asset('uploads/images/' ~ imageRecipe.name) }}">
         {% else %}
-          <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400">
+          <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://img.cuisineaz.com/660x660/2018/03/19/i137643-sauce-basquaise.jpeg">
         {% endif %}
     </div>
 
@@ -37,11 +37,10 @@
 
         </div>
         
-        <div class="hidden">
-            {{ form_label(form.image) }}
-            {{ form_widget(form.image) }}
-        </div>
-
+            <div class="{{ (imageRecipe is not null) ? 'hidden' : '' }}">
+                    {{ form_label(form.image) }}
+                    {{ form_widget(form.image) }}
+            </div>
 
 
         <div>
